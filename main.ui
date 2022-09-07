@@ -29,7 +29,7 @@
    <string>CSV_JSON_Converter</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="file_open">
+   <widget class="QPushButton" name="load_btn">
     <property name="geometry">
      <rect>
       <x>1190</x>
@@ -42,12 +42,12 @@
      <string>Load</string>
     </property>
    </widget>
-   <widget class="QTableWidget" name="tableWidget">
+   <widget class="QTableWidget" name="tableWidget_input">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>45</y>
-      <width>1100</width>
+      <width>531</width>
       <height>655</height>
      </rect>
     </property>
@@ -102,9 +102,9 @@
     <property name="geometry">
      <rect>
       <x>545</x>
-      <y>10</y>
+      <y>0</y>
       <width>30</width>
-      <height>25</height>
+      <height>720</height>
      </rect>
     </property>
     <property name="font">
@@ -138,6 +138,29 @@
       <y>10</y>
       <width>470</width>
       <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="convert_btn">
+    <property name="geometry">
+     <rect>
+      <x>1120</x>
+      <y>45</y>
+      <width>150</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Convert</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tableWidget_output">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>45</y>
+      <width>531</width>
+      <height>655</height>
      </rect>
     </property>
    </widget>
