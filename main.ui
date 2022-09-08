@@ -42,7 +42,7 @@
      <string>Load</string>
     </property>
    </widget>
-   <widget class="QTableWidget" name="tableWidget_input">
+   <widget class="QTableWidget" name="csv_input_screen">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -154,7 +154,17 @@
      <string>Convert</string>
     </property>
    </widget>
-   <widget class="QTableWidget" name="tableWidget_output">
+   <widget class="QTableWidget" name="csv_output_screen">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>45</y>
+      <width>531</width>
+      <height>655</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="json_ouput_screen">
     <property name="geometry">
      <rect>
       <x>580</x>

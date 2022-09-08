@@ -1,9 +1,11 @@
+from distutils.log import info
 from fileinput import filename
 import sys
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import *
 import csv
-
+import json
+#for collections import OrderedDict
 #module.py file import
 
 
@@ -25,7 +27,10 @@ class WindowClass(QMainWindow, form_class) :
         filename=QtWidgets.QFileDialog.getOpenFileName(self, 'Select File',"","CSV files(*.csv);;JSON files(*.json)")[0]
         self.input_name.setPlainText(filename)
         print(filename)
+        ## add - if : csv_open
         self.csv_open()
+        ## hide csv_output_screen
+        self.csv_output_screen.setVisible(False)
 
 
     ## csv
@@ -34,20 +39,34 @@ class WindowClass(QMainWindow, form_class) :
         with open(filename, "r") as fp:
             for row in csv.reader(fp):    
                 row_li.append(row)
-        self.tableWidget_input.setColumnCount(len(row_li[0]))
-        self.tableWidget_input.setHorizontalHeaderLabels(row_li[0])
+        list_len=len(row_li[0])
+        self.csv_input_screen.setColumnCount(list_len)
+        self.csv_input_screen.setHorizontalHeaderLabels(row_li[0])
         
         row_count=0
         for row_value in row_li[1:]: #start row_li[1]~ -> row_li[0]: column line 
-            widget_row=self.tableWidget_input.rowCount()
-            self.tableWidget_input.insertRow(widget_row)
+            widget_row=self.csv_input_screen.rowCount()
+            self.csv_input_screen.insertRow(widget_row)
             col_count=0
             for value in row_value:
-                self.tableWidget_input.setItem(row_count,col_count,QTableWidgetItem(value))
+                self.csv_input_screen.setItem(row_count,col_count,QTableWidgetItem(value))
                 col_count+=1
             row_count+=1
-
-        #self.tableWidget_input.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
+        
+        json_data={}
+        list_count=0
+        for row_value in row_li[1:]:
+            list_value_count=0
+            info={}
+            for list_column_value in row_li[0]:
+                info[list_column_value]=row_value[list_value_count]
+                list_value_count+=1
+            json_data[list_count]=info
+            list_count+=1
+        json_output_data=json.dumps(json_data, indent=3)
+        self.json_ouput_screen.setPlainText(json_output_data)
+        
+        #self.csv_input_screen.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
 
     ## json
 
