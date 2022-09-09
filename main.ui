@@ -141,17 +141,17 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="convert_btn">
+   <widget class="QPushButton" name="csv_to_json_btn">
     <property name="geometry">
      <rect>
       <x>1120</x>
-      <y>45</y>
+      <y>650</y>
       <width>150</width>
-      <height>40</height>
+      <height>50</height>
      </rect>
     </property>
     <property name="text">
-     <string>Convert</string>
+     <string>SAVE [CSV  -&gt; JSON]</string>
     </property>
    </widget>
    <widget class="QTableWidget" name="csv_output_screen">
@@ -164,7 +164,20 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPlainTextEdit" name="json_ouput_screen">
+   <widget class="QPushButton" name="json_to_csv_btn">
+    <property name="geometry">
+     <rect>
+      <x>1120</x>
+      <y>650</y>
+      <width>150</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>SAVE [JSON  -&gt; CSV]</string>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="json_ouput_screen">
     <property name="geometry">
      <rect>
       <x>580</x>
@@ -172,6 +185,44 @@
       <width>531</width>
       <height>655</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="json_input_screen">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>45</y>
+      <width>531</width>
+      <height>655</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="csv_to_json_update_btn">
+    <property name="geometry">
+     <rect>
+      <x>1120</x>
+      <y>590</y>
+      <width>150</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Data UPDATE
+[Input-&gt;Output]</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="json_to_csv_update_btn">
+    <property name="geometry">
+     <rect>
+      <x>1120</x>
+      <y>590</y>
+      <width>150</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Data UPDATE
+[Input-&gt;Output]</string>
     </property>
    </widget>
   </widget>

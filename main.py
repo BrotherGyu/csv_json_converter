@@ -18,24 +18,38 @@ class WindowClass(QMainWindow, form_class) :
         self.setupUi(self)
         self.initUI()
 
+        ## Hide btn
+        self.csv_to_json_btn.setVisible(False)
+        self.csv_to_json_update_btn.setVisible(False)
+
+        self.json_to_csv_btn.setVisible(False)
+        self.json_to_csv_update_btn.setVisible(False)
+
     def initUI(self):
         self.load_btn.clicked.connect(self.fileopen)
-    
+        #self.csv_input_screen.cellChanged.connect(self.csv_update)
     ## open file & return-> filename
     def fileopen(self):
         global filename
         filename=QtWidgets.QFileDialog.getOpenFileName(self, 'Select File',"","CSV files(*.csv);;JSON files(*.json)")[0]
         self.input_name.setPlainText(filename)
-        print(filename)
+
         ## add - if : csv_open
         self.csv_open()
         ## hide csv_output_screen
+        self.json_input_screen.setVisible(False)
         self.csv_output_screen.setVisible(False)
-
+        self.csv_to_json_btn.setVisible(True)
+        self.csv_to_json_update_btn.setVisible(True)
 
     ## csv
     def csv_open(self):
         row_li=[]
+        ## load input_name(TextBrowser) value
+        input_name_TextBrowser=self.input_name.toPlainText()
+        output_name_TextBrowser=input_name_TextBrowser.replace(".csv",".json")
+        self.output_name.setPlainText(output_name_TextBrowser)
+
         with open(filename, "r") as fp:
             for row in csv.reader(fp):    
                 row_li.append(row)
@@ -66,8 +80,12 @@ class WindowClass(QMainWindow, form_class) :
         json_output_data=json.dumps(json_data, indent=3)
         self.json_ouput_screen.setPlainText(json_output_data)
         
-        #self.csv_input_screen.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
+        ## tablewidget cell change -> csv_update() execution
+        self.csv_input_screen.cellChanged.connect(self.csv_update)
 
+        #self.csv_input_screen.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
+    def csv_update(self):
+        print("1234")
     ## json
 
 if __name__ == "__main__" :
