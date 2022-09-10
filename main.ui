@@ -197,34 +197,6 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="csv_to_json_update_btn">
-    <property name="geometry">
-     <rect>
-      <x>1120</x>
-      <y>590</y>
-      <width>150</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Data UPDATE
-[Input-&gt;Output]</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="json_to_csv_update_btn">
-    <property name="geometry">
-     <rect>
-      <x>1120</x>
-      <y>590</y>
-      <width>150</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Data UPDATE
-[Input-&gt;Output]</string>
-    </property>
-   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

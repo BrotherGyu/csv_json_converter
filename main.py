@@ -6,10 +6,10 @@ from PyQt5.QtWidgets import *
 import csv
 import json
 #for collections import OrderedDict
-#module.py file import
+## module.py file import
 
 
-#UI file connect : main.ui
+## UI file connect : main.ui
 form_class = uic.loadUiType("main.ui")[0]
 
 class WindowClass(QMainWindow, form_class) :
@@ -20,35 +20,45 @@ class WindowClass(QMainWindow, form_class) :
 
         ## Hide btn
         self.csv_to_json_btn.setVisible(False)
-        self.csv_to_json_update_btn.setVisible(False)
 
         self.json_to_csv_btn.setVisible(False)
-        self.json_to_csv_update_btn.setVisible(False)
+        
 
     def initUI(self):
         self.load_btn.clicked.connect(self.fileopen)
-        #self.csv_input_screen.cellChanged.connect(self.csv_update)
+        
+
     ## open file & return-> filename
     def fileopen(self):
         global filename
         filename=QtWidgets.QFileDialog.getOpenFileName(self, 'Select File',"","CSV files(*.csv);;JSON files(*.json)")[0]
-        self.input_name.setPlainText(filename)
+        
+        ## Exception handling : Run only if you open the file
+        if filename!='':
+            self.input_name.setPlainText(filename)
 
-        ## add - if : csv_open
-        self.csv_open()
-        ## hide csv_output_screen
-        self.json_input_screen.setVisible(False)
-        self.csv_output_screen.setVisible(False)
-        self.csv_to_json_btn.setVisible(True)
-        self.csv_to_json_update_btn.setVisible(True)
+            ## add - if : csv_open
+            self.csv_open()
+            ## hide csv_output_screen
+            self.json_input_screen.setVisible(False)
+            self.csv_output_screen.setVisible(False)
+            self.csv_to_json_btn.setVisible(True)
+            
 
     ## csv
     def csv_open(self):
+        global row_li
         row_li=[]
         ## load input_name(TextBrowser) value
         input_name_TextBrowser=self.input_name.toPlainText()
         output_name_TextBrowser=input_name_TextBrowser.replace(".csv",".json")
         self.output_name.setPlainText(output_name_TextBrowser)
+
+        ## cellChange() disconnect
+        try:
+            self.csv_input_screen.cellChanged.disconnect()
+        except:
+            pass    
 
         with open(filename, "r") as fp:
             for row in csv.reader(fp):    
@@ -66,7 +76,14 @@ class WindowClass(QMainWindow, form_class) :
                 self.csv_input_screen.setItem(row_count,col_count,QTableWidgetItem(value))
                 col_count+=1
             row_count+=1
-        
+        ## output screen update
+        self.csv_to_json_data_update()
+
+        ## tablewidget cell change -> csv_update() execution
+        self.csv_input_screen.cellChanged.connect(self.csv_update)
+
+    ## csv data -> ouput screen [json date]
+    def csv_to_json_data_update(self):
         json_data={}
         list_count=0
         for row_value in row_li[1:]:
@@ -79,13 +96,14 @@ class WindowClass(QMainWindow, form_class) :
             list_count+=1
         json_output_data=json.dumps(json_data, indent=3)
         self.json_ouput_screen.setPlainText(json_output_data)
-        
-        ## tablewidget cell change -> csv_update() execution
-        self.csv_input_screen.cellChanged.connect(self.csv_update)
 
-        #self.csv_input_screen.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
     def csv_update(self):
-        print("1234")
+        col=self.csv_input_screen.currentColumn()
+        row=self.csv_input_screen.currentRow()
+        row_li[row+1][col]=self.csv_input_screen.item(row, col).text()
+        self.csv_to_json_data_update()
+        
+
     ## json
 
 if __name__ == "__main__" :
