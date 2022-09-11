@@ -26,7 +26,7 @@ class WindowClass(QMainWindow, form_class) :
 
     def initUI(self):
         self.load_btn.clicked.connect(self.fileopen)
-        
+        self.csv_to_json_btn.clicked.connect(self.csv_to_json_save)
 
     ## open file & return-> filename
     def fileopen(self):
@@ -51,7 +51,10 @@ class WindowClass(QMainWindow, form_class) :
         row_li=[]
         ## load input_name(TextBrowser) value
         input_name_TextBrowser=self.input_name.toPlainText()
+
+        global output_name_TextBrowser
         output_name_TextBrowser=input_name_TextBrowser.replace(".csv",".json")
+
         self.output_name.setPlainText(output_name_TextBrowser)
 
         ## cellChange() disconnect
@@ -84,6 +87,7 @@ class WindowClass(QMainWindow, form_class) :
 
     ## csv data -> ouput screen [json date]
     def csv_to_json_data_update(self):
+        global json_data
         json_data={}
         list_count=0
         for row_value in row_li[1:]:
@@ -102,9 +106,16 @@ class WindowClass(QMainWindow, form_class) :
         row=self.csv_input_screen.currentRow()
         row_li[row+1][col]=self.csv_input_screen.item(row, col).text()
         self.csv_to_json_data_update()
-        
+    
+    def csv_to_json_save(self):
+        with open(output_name_TextBrowser,'w')as f:
+            json.dump(json_data, f, ensure_ascii=False,indent=4)
+
 
     ## json
+    
+        
+
 
 if __name__ == "__main__" :
     app = QApplication(sys.argv) 
