@@ -31,19 +31,28 @@ class WindowClass(QMainWindow, form_class) :
     ## open file & return-> filename
     def fileopen(self):
         global filename
-        filename=QtWidgets.QFileDialog.getOpenFileName(self, 'Select File',"","CSV files(*.csv);;JSON files(*.json)")[0]
+        filename=QtWidgets.QFileDialog.getOpenFileName(self, 'Select File',"","ALL files(*.csv;*.json);;CSV files(*.csv);;JSON files(*.json)")[0]
         
         ## Exception handling : Run only if you open the file
         if filename!='':
             self.input_name.setPlainText(filename)
 
-            ## add - if : csv_open
-            self.csv_open()
-            ## hide csv_output_screen
-            self.json_input_screen.setVisible(False)
-            self.csv_output_screen.setVisible(False)
-            self.csv_to_json_btn.setVisible(True)
+            ## if : open csv file
+            if filename.find('.csv')!=-1:
+                ## add - if : csv_open
+                self.csv_open()
+                ## hide csv_output_screen
+                self.json_input_screen.setVisible(False)
+                self.csv_output_screen.setVisible(False)
+                self.csv_to_json_btn.setVisible(True)
             
+            ## if : open json file
+            if filename.find('.json')!=-1:
+                self.json_open()
+
+                self.csv_input_screen.setVisible(False)
+                self.json_output_screen.setVisible(False)
+                self.json_to_csv_btn.setVisible(True)
 
     ## csv
     def csv_open(self):
@@ -85,7 +94,7 @@ class WindowClass(QMainWindow, form_class) :
         ## tablewidget cell change -> csv_update() execution
         self.csv_input_screen.cellChanged.connect(self.csv_update)
 
-    ## csv data -> ouput screen [json date]
+    ##csv data -> ouput screen [json date]
     def csv_to_json_data_update(self):
         global json_data
         json_data={}
@@ -113,7 +122,8 @@ class WindowClass(QMainWindow, form_class) :
 
 
     ## json
-    
+    def json_open(self):
+        print("json_open")
         
 
 

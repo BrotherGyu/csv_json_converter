@@ -177,7 +177,7 @@
      <string>SAVE [JSON  -&gt; CSV]</string>
     </property>
    </widget>
-   <widget class="QTextBrowser" name="json_ouput_screen">
+   <widget class="QTextBrowser" name="json_output_screen">
     <property name="geometry">
      <rect>
       <x>580</x>
