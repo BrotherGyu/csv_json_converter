@@ -94,7 +94,7 @@ class WindowClass(QMainWindow, form_class) :
         ## tablewidget cell change -> csv_update() execution
         self.csv_input_screen.cellChanged.connect(self.csv_update)
 
-    ##csv data -> ouput screen [json date]
+    ##csv data -> output screen [json date]
     def csv_to_json_data_update(self):
         global json_data
         json_data={}
@@ -108,7 +108,7 @@ class WindowClass(QMainWindow, form_class) :
             json_data[list_count]=info
             list_count+=1
         json_output_data=json.dumps(json_data, indent=3)
-        self.json_ouput_screen.setPlainText(json_output_data)
+        self.json_output_screen.setPlainText(json_output_data)
 
     def csv_update(self):
         col=self.csv_input_screen.currentColumn()
@@ -123,9 +123,40 @@ class WindowClass(QMainWindow, form_class) :
 
     ## json
     def json_open(self):
-        print("json_open")
-        
+        with open(filename, "r") as fp:
+            json_dict=json.load(fp)
+        json_input_data=json.dumps(json_dict, indent=3)
+        self.json_input_screen.setPlainText(json_input_data)
 
+        ## load input_name(TextBrowser) value
+        input_name_TextBrowser=self.input_name.toPlainText()
+
+        global output_name_TextBrowser
+        output_name_TextBrowser=input_name_TextBrowser.replace(".json",".csv")
+
+        self.output_name.setPlainText(output_name_TextBrowser)
+
+
+        global json_li
+        json_li=[]
+        json_li.append(list(json_dict[list(json_dict.keys())[0]].keys()))
+        
+        for json_li_keys in list(json_dict.keys()):
+            json_li.append(list(json_dict[json_li_keys].values()))
+
+        list_len=len(json_li[0])
+        self.csv_output_screen.setColumnCount(list_len)
+        self.csv_output_screen.setHorizontalHeaderLabels(json_li[0])
+
+        row_count=0
+        for row_value in json_li[1:]: #start json_li[1]~ -> json_li[0]: column line 
+            widget_row=self.csv_output_screen.rowCount()
+            self.csv_output_screen.insertRow(widget_row)
+            col_count=0
+            for value in row_value:
+                self.csv_output_screen.setItem(row_count,col_count,QTableWidgetItem(value))
+                col_count+=1
+            row_count+=1
 
 if __name__ == "__main__" :
     app = QApplication(sys.argv) 
