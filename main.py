@@ -54,7 +54,7 @@ class WindowClass(QMainWindow, form_class) :
                 self.json_output_screen.setVisible(False)
                 self.json_to_csv_btn.setVisible(True)
 
-    ## csv
+    ## csv_open
     def csv_open(self):
         global row_li
         row_li=[]
@@ -121,19 +121,19 @@ class WindowClass(QMainWindow, form_class) :
             json.dump(json_data, f, ensure_ascii=False,indent=4)
 
 
-    ## json
+    ## json_open
     def json_open(self):
         with open(filename, "r") as fp:
             json_dict=json.load(fp)
         json_input_data=json.dumps(json_dict, indent=3)
         self.json_input_screen.setPlainText(json_input_data)
 
+
         ## load input_name(TextBrowser) value
         input_name_TextBrowser=self.input_name.toPlainText()
-
+        ## set output_name(TextBrowser) value
         global output_name_TextBrowser
         output_name_TextBrowser=input_name_TextBrowser.replace(".json",".csv")
-
         self.output_name.setPlainText(output_name_TextBrowser)
 
 
@@ -148,8 +148,9 @@ class WindowClass(QMainWindow, form_class) :
         self.csv_output_screen.setColumnCount(list_len)
         self.csv_output_screen.setHorizontalHeaderLabels(json_li[0])
 
+        ## input data -> csv output screen
         row_count=0
-        for row_value in json_li[1:]: #start json_li[1]~ -> json_li[0]: column line 
+        for row_value in json_li[1:]: ##start json_li[1]~ -> json_li[0]: column line 
             widget_row=self.csv_output_screen.rowCount()
             self.csv_output_screen.insertRow(widget_row)
             col_count=0
@@ -163,4 +164,3 @@ if __name__ == "__main__" :
     myWindow = WindowClass() 
     myWindow.show()
     app.exec_()
-    
