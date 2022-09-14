@@ -187,7 +187,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QTextBrowser" name="json_input_screen">
+   <widget class="QTableWidget" name="json_input_screen">
     <property name="geometry">
      <rect>
       <x>10</x>

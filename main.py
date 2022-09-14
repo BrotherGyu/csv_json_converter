@@ -42,6 +42,9 @@ class WindowClass(QMainWindow, form_class) :
                 ## add - if : csv_open
                 self.csv_open()
                 ## hide csv_output_screen
+                self.csv_input_screen.setVisible(True)
+                self.json_output_screen.setVisible(True)
+
                 self.json_input_screen.setVisible(False)
                 self.csv_output_screen.setVisible(False)
                 self.csv_to_json_btn.setVisible(True)
@@ -49,6 +52,9 @@ class WindowClass(QMainWindow, form_class) :
             ## if : open json file
             if filename.find('.json')!=-1:
                 self.json_open()
+
+                self.json_input_screen.setVisible(True)
+                self.csv_output_screen.setVisible(True)
 
                 self.csv_input_screen.setVisible(False)
                 self.json_output_screen.setVisible(False)
@@ -80,6 +86,7 @@ class WindowClass(QMainWindow, form_class) :
         self.csv_input_screen.setHorizontalHeaderLabels(row_li[0])
         
         row_count=0
+        
         for row_value in row_li[1:]: #start row_li[1]~ -> row_li[0]: column line 
             widget_row=self.csv_input_screen.rowCount()
             self.csv_input_screen.insertRow(widget_row)
@@ -88,6 +95,7 @@ class WindowClass(QMainWindow, form_class) :
                 self.csv_input_screen.setItem(row_count,col_count,QTableWidgetItem(value))
                 col_count+=1
             row_count+=1
+            
         ## output screen update
         self.csv_to_json_data_update()
 
@@ -97,7 +105,7 @@ class WindowClass(QMainWindow, form_class) :
     ##csv data -> output screen [json date]
     def csv_to_json_data_update(self):
         global json_data
-        json_data={}
+        json_data=[]
         list_count=0
         for row_value in row_li[1:]:
             list_value_count=0
@@ -105,10 +113,11 @@ class WindowClass(QMainWindow, form_class) :
             for list_column_value in row_li[0]:
                 info[list_column_value]=row_value[list_value_count]
                 list_value_count+=1
-            json_data[list_count]=info
+            json_data.append(info)
             list_count+=1
         json_output_data=json.dumps(json_data, indent=3)
         self.json_output_screen.setPlainText(json_output_data)
+
 
     def csv_update(self):
         col=self.csv_input_screen.currentColumn()
@@ -126,8 +135,6 @@ class WindowClass(QMainWindow, form_class) :
         with open(filename, "r") as fp:
             json_dict=json.load(fp)
         json_input_data=json.dumps(json_dict, indent=3)
-        self.json_input_screen.setPlainText(json_input_data)
-
 
         ## load input_name(TextBrowser) value
         input_name_TextBrowser=self.input_name.toPlainText()
@@ -139,16 +146,19 @@ class WindowClass(QMainWindow, form_class) :
 
         global json_li
         json_li=[]
-        json_li.append(list(json_dict[list(json_dict.keys())[0]].keys()))
         
-        for json_li_keys in list(json_dict.keys()):
-            json_li.append(list(json_dict[json_li_keys].values()))
-
+        ## json_li[0] : column line 
+        json_li.append(list(json_dict[0].keys()))
+        
+        for json_li_values in json_dict:
+            json_li.append(list(json_li_values.values()))
+        
+        
+        ## input data -> csv output screen
         list_len=len(json_li[0])
         self.csv_output_screen.setColumnCount(list_len)
         self.csv_output_screen.setHorizontalHeaderLabels(json_li[0])
 
-        ## input data -> csv output screen
         row_count=0
         for row_value in json_li[1:]: ##start json_li[1]~ -> json_li[0]: column line 
             widget_row=self.csv_output_screen.rowCount()
@@ -158,7 +168,12 @@ class WindowClass(QMainWindow, form_class) :
                 self.csv_output_screen.setItem(row_count,col_count,QTableWidgetItem(value))
                 col_count+=1
             row_count+=1
-
+        
+        #self.json_input_screen.textChanged.connect(self.json_update)
+        
+    def json_update(self):
+        print("updp")
+    
 if __name__ == "__main__" :
     app = QApplication(sys.argv) 
     myWindow = WindowClass() 
