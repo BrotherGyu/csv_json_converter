@@ -152,7 +152,39 @@ class WindowClass(QMainWindow, form_class) :
         
         for json_li_values in json_dict:
             json_li.append(list(json_li_values.values()))
+       
         
+        ## code edit...
+        #list_len=len(json_li[0])
+        self.json_input_screen.setColumnCount(4)
+        widget_row=self.json_input_screen.rowCount()
+        self.json_input_screen.insertRow(widget_row)
+        self.json_input_screen.setItem(0,0,QTableWidgetItem('{'))
+
+        widget_row=self.json_input_screen.rowCount()
+        self.json_input_screen.insertRow(widget_row)
+        self.json_input_screen.setItem(1,1,QTableWidgetItem('{'))
+
+        row_count=1
+        col_count=0
+        column_count=0
+        list_len=len(json_li[0])
+        for row_value in json_li[1:]:
+            column_count+=1
+            column_count%=7
+            
+            for value in row_value:
+                row_count+=1
+                widget_row=self.json_input_screen.rowCount()
+                self.json_input_screen.insertRow(widget_row)
+                self.json_input_screen.setItem(row_count,3,QTableWidgetItem(value))
+                
+
+            widget_row=self.json_input_screen.rowCount()
+            self.json_input_screen.insertRow(widget_row)
+            row_count+=1
+            self.json_input_screen.setItem(row_count,1,QTableWidgetItem('}'))
+            
         
         ## input data -> csv output screen
         list_len=len(json_li[0])
