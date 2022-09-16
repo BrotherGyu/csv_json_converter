@@ -169,16 +169,18 @@ class WindowClass(QMainWindow, form_class) :
         col_count=0
         column_count=0
         list_len=len(json_li[0])
+        print(list_len)
         for row_value in json_li[1:]:
-            column_count+=1
-            column_count%=7
+            
             
             for value in row_value:
                 row_count+=1
                 widget_row=self.json_input_screen.rowCount()
                 self.json_input_screen.insertRow(widget_row)
+                self.json_input_screen.setItem(row_count,2,QTableWidgetItem(json_li[0][column_count]))
                 self.json_input_screen.setItem(row_count,3,QTableWidgetItem(value))
-                
+                column_count+=1
+                column_count%=list_len
 
             widget_row=self.json_input_screen.rowCount()
             self.json_input_screen.insertRow(widget_row)
