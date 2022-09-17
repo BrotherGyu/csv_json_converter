@@ -20,10 +20,8 @@ class WindowClass(QMainWindow, form_class) :
 
         ## Hide btn
         self.csv_to_json_btn.setVisible(False)
-
         self.json_to_csv_btn.setVisible(False)
         
-
     def initUI(self):
         self.load_btn.clicked.connect(self.fileopen)
         self.csv_to_json_btn.clicked.connect(self.csv_to_json_save)
@@ -32,7 +30,7 @@ class WindowClass(QMainWindow, form_class) :
     def fileopen(self):
         global filename
         filename=QtWidgets.QFileDialog.getOpenFileName(self, 'Select File',"","ALL files(*.csv;*.json);;CSV files(*.csv);;JSON files(*.json)")[0]
-        
+
         ## Exception handling : Run only if you open the file
         if filename!='':
             self.input_name.setPlainText(filename)
@@ -41,7 +39,6 @@ class WindowClass(QMainWindow, form_class) :
             if filename.find('.csv')!=-1:
                 ## add - if : csv_open
                 self.csv_open()
-                ## hide csv_output_screen
                 self.csv_input_screen.setVisible(True)
                 self.json_output_screen.setVisible(True)
 
@@ -52,7 +49,6 @@ class WindowClass(QMainWindow, form_class) :
             ## if : open json file
             if filename.find('.json')!=-1:
                 self.json_open()
-
                 self.json_input_screen.setVisible(True)
                 self.csv_output_screen.setVisible(True)
 
@@ -159,35 +155,36 @@ class WindowClass(QMainWindow, form_class) :
         self.json_input_screen.setColumnCount(4)
         widget_row=self.json_input_screen.rowCount()
         self.json_input_screen.insertRow(widget_row)
-        self.json_input_screen.setItem(0,0,QTableWidgetItem('{'))
+        self.json_input_screen.setItem(widget_row,0,QTableWidgetItem('{'))
 
-        widget_row=self.json_input_screen.rowCount()
-        self.json_input_screen.insertRow(widget_row)
-        self.json_input_screen.setItem(1,1,QTableWidgetItem('{'))
-
-        row_count=1
+        
         col_count=0
         column_count=0
         list_len=len(json_li[0])
         print(list_len)
+
         for row_value in json_li[1:]:
-            
-            
-            for value in row_value:
-                row_count+=1
+            widget_row=self.json_input_screen.rowCount()
+            self.json_input_screen.insertRow(widget_row)
+            self.json_input_screen.setItem(widget_row,1,QTableWidgetItem('{'))
+
+            for value in row_value:     
                 widget_row=self.json_input_screen.rowCount()
                 self.json_input_screen.insertRow(widget_row)
-                self.json_input_screen.setItem(row_count,2,QTableWidgetItem(json_li[0][column_count]))
-                self.json_input_screen.setItem(row_count,3,QTableWidgetItem(value))
+                self.json_input_screen.setItem(widget_row,2,QTableWidgetItem(json_li[0][column_count]))
+                self.json_input_screen.setItem(widget_row,3,QTableWidgetItem(value))
                 column_count+=1
                 column_count%=list_len
 
             widget_row=self.json_input_screen.rowCount()
             self.json_input_screen.insertRow(widget_row)
-            row_count+=1
-            self.json_input_screen.setItem(row_count,1,QTableWidgetItem('}'))
+            self.json_input_screen.setItem(widget_row,1,QTableWidgetItem('}'))
             
-        
+        widget_row=self.json_input_screen.rowCount()
+        self.json_input_screen.insertRow(widget_row)
+        self.json_input_screen.setItem(widget_row,0,QTableWidgetItem('}'))
+
+
         ## input data -> csv output screen
         list_len=len(json_li[0])
         self.csv_output_screen.setColumnCount(list_len)
