@@ -157,11 +157,9 @@ class WindowClass(QMainWindow, form_class) :
         self.json_input_screen.insertRow(widget_row)
         self.json_input_screen.setItem(widget_row,0,QTableWidgetItem('{'))
 
-        
         col_count=0
         column_count=0
         list_len=len(json_li[0])
-        print(list_len)
 
         for row_value in json_li[1:]:
             widget_row=self.json_input_screen.rowCount()
