@@ -128,6 +128,14 @@ class WindowClass(QMainWindow, form_class) :
 
     ## json_open
     def json_open(self):
+        
+        ## cellChange() disconnect
+        try:
+            self.json_input_screen.cellChanged.disconnect()
+        except:
+            pass 
+        
+        
         with open(filename, "r") as fp:
             json_dict=json.load(fp)
         json_input_data=json.dumps(json_dict, indent=3)
@@ -197,11 +205,17 @@ class WindowClass(QMainWindow, form_class) :
                 self.csv_output_screen.setItem(row_count,col_count,QTableWidgetItem(value))
                 col_count+=1
             row_count+=1
-        
-        #self.json_input_screen.textChanged.connect(self.json_update)
-        
+            
+        self.json_input_screen.cellChanged.connect(self.json_update)
+    
+    def json_to_csv_data_update(self):
+        print('json_to_csv_data')
+
     def json_update(self):
-        print("updp")
+        col=self.json_input_screen.currentColumn()
+        row=self.json_input_screen.currentRow()
+        row_li[row+1][col]=self.json_input_screen.item(row, col).text()
+        self.json_to_csv_data_update()
     
 if __name__ == "__main__" :
     app = QApplication(sys.argv) 
