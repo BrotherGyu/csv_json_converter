@@ -113,14 +113,13 @@ class WindowClass(QMainWindow, form_class) :
             list_count+=1
         json_output_data=json.dumps(json_data, indent=3)
         self.json_output_screen.setPlainText(json_output_data)
-
-
+        
     def csv_update(self):
         col=self.csv_input_screen.currentColumn()
         row=self.csv_input_screen.currentRow()
         row_li[row+1][col]=self.csv_input_screen.item(row, col).text()
         self.csv_to_json_data_update()
-    
+
     def csv_to_json_save(self):
         with open(output_name_TextBrowser,'w')as f:
             json.dump(json_data, f, ensure_ascii=False,indent=4)
@@ -128,13 +127,11 @@ class WindowClass(QMainWindow, form_class) :
 
     ## json_open
     def json_open(self):
-        
         ## cellChange() disconnect
         try:
             self.json_input_screen.cellChanged.disconnect()
         except:
             pass 
-        
         
         with open(filename, "r") as fp:
             json_dict=json.load(fp)
@@ -147,17 +144,14 @@ class WindowClass(QMainWindow, form_class) :
         output_name_TextBrowser=input_name_TextBrowser.replace(".json",".csv")
         self.output_name.setPlainText(output_name_TextBrowser)
 
-
         global json_li
         json_li=[]
         
         ## json_li[0] : column line 
         json_li.append(list(json_dict[0].keys()))
-        
         for json_li_values in json_dict:
             json_li.append(list(json_li_values.values()))
        
-        
         ## code edit...
         #list_len=len(json_li[0])
         self.json_input_screen.setColumnCount(4)
@@ -169,6 +163,7 @@ class WindowClass(QMainWindow, form_class) :
         column_count=0
         list_len=len(json_li[0])
 
+        ## json file load -> json_input_screen
         for row_value in json_li[1:]:
             widget_row=self.json_input_screen.rowCount()
             self.json_input_screen.insertRow(widget_row)
@@ -212,9 +207,11 @@ class WindowClass(QMainWindow, form_class) :
         print('json_to_csv_data')
 
     def json_update(self):
+        print(len(json_li[0]))
         col=self.json_input_screen.currentColumn()
         row=self.json_input_screen.currentRow()
-        row_li[row+1][col]=self.json_input_screen.item(row, col).text()
+        print(col,"-",row)
+        #json_li[row+1][col]=self.json_input_screen.item(row, col).text()
         self.json_to_csv_data_update()
     
 if __name__ == "__main__" :
