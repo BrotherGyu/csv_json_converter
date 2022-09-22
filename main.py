@@ -211,7 +211,11 @@ class WindowClass(QMainWindow, form_class) :
         col=self.json_input_screen.currentColumn()
         row=self.json_input_screen.currentRow()
         print((row-1)%(column_len+2))
+        
+        ## col
+        print((row-1)%(column_len+2)-1)
         print(col,"-",row)
+
         #json_li[row+1][col]=self.json_input_screen.item(row, col).text()
         self.json_to_csv_data_update()
     
