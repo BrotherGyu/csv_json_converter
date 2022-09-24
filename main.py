@@ -212,15 +212,20 @@ class WindowClass(QMainWindow, form_class) :
         
         ## row
         row=self.json_input_screen.currentRow()
-        row=(row-1)//(column_len+2)
+        row_input=(row-1)//(column_len+2)
         
         ## col
         col=self.json_input_screen.currentColumn()
-        col=(col-1)%(column_len+2)
+        col_input=(row-1)%(column_len+2)-1
 
-        print(row,"-",col)
-        self.json_to_csv_data_update()
-    
+
+        if (row>=0 and col>=0) and col<column_len:
+            print(row_input,"-",col_input)
+            input_value=self.json_input_screen.item(row, col).text()
+            self.csv_output_screen.setItem(row_input,col_input,QTableWidgetItem(input_value))
+            self.json_to_csv_data_update()
+
+
 if __name__ == "__main__" :
     app = QApplication(sys.argv) 
     myWindow = WindowClass() 
